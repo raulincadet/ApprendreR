@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1580991908669.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "88290024",
+    "id" : "1A10CF4",
+    "lastKnownWriteTime" : 1580994967,
+    "last_content_update" : 1580994967187,
+    "path" : "C:/Users/CRL/Box Sync/DaroConsultingProject1/BookR/ApprendreR/inst/tutorials/import/Tuteur.Rmd",
+    "project_path" : "inst/tutorials/import/Tuteur.Rmd",
+    "properties" : {
+        "cursorPosition" : "31,12",
+        "scrollLine" : "26"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

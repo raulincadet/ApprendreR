@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1580955098524.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4116331488",
+    "id" : "7EAEB773",
+    "lastKnownWriteTime" : 1580955001,
+    "last_content_update" : 1580955001,
+    "path" : "C:/Users/CRL/Box Sync/DaroConsultingProject1/BookR/ApprendreR/NAMESPACE",
+    "project_path" : "NAMESPACE",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_namespace"
+}
