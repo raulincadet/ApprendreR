@@ -1,16 +1,19 @@
 ---
 title: "Tutoriel: Premiers Pas avec R"
-author: "Raulin L. Cadet (raulin.cadet@uniq.edu.ht"
+author: "Raulin L. Cadet (cadetraulin@gmail.com)"
 output: learnr::tutorial
 runtime: shiny_prerendered
-params:
-  data: donneesSalaire.csv
+#params:
+ # data: donneesSalaire.csv
 ---
 
 ```{r setup, include=FALSE}
 library(learnr)
+library(openxlsx)
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+
 
 
 ## Importation de données
@@ -23,17 +26,15 @@ Pour importer des données d'un fichier de format *csv*, il faut utiliser la fon
 
 #### Exercice
 
-Créez l'objet *dat*, qui contient les données du fichier *donneesSalaire.csv*. Si vous n'arrivez pas à créer l'objet, cliquez sur *hint*, pour voir comment y procéder. Le fichier est installé dans votre ordinateur, avec le package *ApprendreR*. Exécutez la ligne de code *system.file("extdata", "donneesSalaire.csv", package = "ApprendreR")* pour obtenir le chemin permettant de trouver le fichier *donneesSalaire.csv*. Puis, copiez le chemin menant au fichier.
+Créez l'objet *dat*, qui contient les données du fichier *donneesSalaire.csv*. Si vous n'arrivez pas à créer l'objet, cliquez sur *hint*, pour voir comment y procéder. Le fichier est installé dans votre ordinateur, avec le package *ApprendreR*.  
 
-```{r chemin,exercice=TRUE,exercise.eval=TRUE}
+Le chemin menant au répertoire contenant le fichier est indiqué ci-dessous. Copiez ce chemin ainsi que les guillemets; il ne faut pas copier ## [1]. Il faudra insérer le chemin copier avec les guillemets, comme argument de la fonction *read.csv()*
 
+```{r chemin1}
+system.file("extdata", "donneesSalaire.csv", package = "ApprendreR")
 ```
 
-```{r chemin-hint}
-chemin<-system.file("extdata", "donneesSalaire.csv", package = "ApprendreR")
-```
-
-Ecrivez et exécutez la ligne de code qui vous permet d'importer les données
+Ecrivez et exécutez la ligne de code qui vous permet d'importer les données du fichier *donneesSalaire.csv*.
 
 ```{r csv, exercise=TRUE, exercise.eval=TRUE}
 
@@ -41,57 +42,192 @@ Ecrivez et exécutez la ligne de code qui vous permet d'importer les données
 ```
 
 ```{r csv-hint}
-dat<-read.csv("donneesSalaire.csv")
+# Coller le chemin menant au fichier comme argument de la fonction, comme suit: 
+# dat<-read.csv("C:/...)
 ```
 
-### Exercise with Code
+L'objet créé est de type data frame. Vous pouvez le vérifier ci-dessous. Si vous oubliez comment le faire, cliquez sur *hint*.
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
 
-Now write a function that adds any two numbers and then call it:
+```{r type, exercise=TRUE, exercise.eval=F}
+dat<-read.csv(system.file("extdata", "donneesSalaire.csv", package = "ApprendreR"))
+# Ci-dessous, vous verifiez le type d'objet
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
 ```
 
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
+```{r type-hint}
+class(dat)
 ```
 
-```{r print-limit-hint}
-head(mtcars)
+Vous pouvez visualiser les 5 premières lignes de données du data frame que vous venez de créer, en utilisant la fonction *head()*. Le premier argument de cette fonction est le nom du data frame, et le second est le nombre de lignes que vous voulez afficher. Essayer de visualiser les 5 premières lignes du data frame *dat*. Les arguments sont séparés par une virgule. Si vous n'y arrivez pas, vous pouvez cliquer sur *hint*. Mais, essayez d'abord.
+
+
+```{r firstrows, exercise=TRUE, exercise.eval=F}
+dat<-read.csv(system.file("extdata", "donneesSalaire.csv", package = "ApprendreR"))
+# Ci-dessous, affichez les 5 premieres lignes du data frame dat
+
 ```
 
-### Quiz
+```{r firstrows-hint}
+head(dat,5)
+```
 
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
 
-Some questions to verify that you understand the purposes of various base and recommended R packages:
+### Fichier XLS et XLSX
+
+Plusieurs packages permettent d'importer des fichiers de données de format xls et xlsx. Nous citons quelques uns: XLConnect, openxlsx, XLSX. Nous allons utiliser le package *openxlsx* comme illustration. Il faut installer ce package, afin de pouvoir utiliser ses fonctions. Pour importer des données d'un fichier de format *xlsx*, vous utiliser la fonction *read.xlsx("NomFichier")*. Vous pouves nommer le nouvel objet *univ*.
+
+
+```{r chemin2}
+system.file("extdata", "TopUniversites.xlsx", package = "ApprendreR")
+```
+
+
+```{r xlsx, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r xlsx-hint}
+# Coller le chemin menant au fichier comme argument de la fonction, comme suit: 
+# univ=read.xlsx("C:/...)
+```
+
+Vérifiez, ci-dessous, le type d'objet qui est créé lorsque vous importez les données de Microsoft Excel.
+
+```{r type2, exercise=TRUE, exercise.eval=F}
+univ=read.xlsx(system.file("extdata", "TopUniversites.xlsx", package = "ApprendreR"))
+# Ci-dessous, ecrivez une ligne de code pour verifier le type d'objet de univ
+
+```
+
+```{r type2-hint}
+class(univ)
+```
+
+
+## Statistiques descriptives
+Vous pouvez utiiliser les données importées, pour des calculs statistiques. Mais, affichez d'abord les premières lignes du data frame univ qui sera utilisé pour des illustrations.
+
+```{r summary, exercise=TRUE, exercise.eval=TRUE}
+univ=read.xlsx(system.file("extdata", "TopUniversites.xlsx", package = "ApprendreR"))
+# Ci-dessous, ecrivez une ligne de code pour afficher les premiere lignes, sans indiquer le nombre. Puis, explorer les types de donnees du data frame
+
+```
+
+```{r summary-hint}
+head(univ)
+str(univ)
+```
+
+Vous remarquez que les données numériques, qui sont des scores, sont de types charactères dans le data frame. Dans ce cas, il vous sera difficile de réaliser des calculs avec ces valeurs. Il faut donc transformer les données des variables suivantes en type numérique: Score, AlumniPrix, StaffPrix, Chercheur, Article. Puis, vous pouvez calculer la moyenne et l'écart-type du score global obtenu par les universités, avec les fonctions *mean()* et *sd()* respectivement.
+
+```{r datatype, exercise=TRUE, exercise.eval=F}
+univ=read.xlsx(system.file("extdata", "TopUniversites.xlsx", package = "ApprendreR"))
+# Ecrivez des lignes de code pour modifier le type de donnees, comme l'exemple suivante:
+univ$Score<-as.numeric(univ$Score)
+
+
+
+
+# Ci-dessous, vous calculez la moyenne et l'ecart-type demandees
+
+
+```
+
+```{r datatype-hint}
+univ$Score<-as.numeric(univ$Score)
+univ$AlumniPrix<-as.numeric(univ$AlumniPrix)
+univ$StaffPrix<-as.numeric(univ$StaffPrix)
+univ$Chercheur<-as.numeric(univ$Chercheur)
+univ$Article<-as.numeric(univ$Article)
+
+
+# Vous pouvez calculer la moyenne et l'écart-type du score global obtenu par les universités, avec les fonctions *mean()* et *sd()* respectivement.
+mean(univ$Score)
+sd(univ$Score)
+```
+
+
+## Graphiques basiques
+
+Avec le vecteur *x*, réalisez un graphique en nuage de points, utilisant la fonction *plot()*. L'argument à inclure dans la fonction est le nom du vecteur qui est *x*.
+
+```{r gra1, exercise=TRUE, exercise.eval=T}
+set.seed(123)
+x<-rnorm(n=25,mean=45,sd=5)
+# Ci-dessous, le graphique
+
+
+```
+
+```{r gra1-hint}
+plot(x)
+```
+
+
+Réalisez un graphique en ligne avec les données du vecteur *x*
+```{r gra2, exercise=TRUE, exercise.eval=T}
+set.seed(123)
+x<-rnorm(n=25,mean=45,sd=5)
+# Ci-dessous, ecrivez la ligne de code pour realiser le graphique
+
+
+```
+
+```{r gra2-hint}
+plot(x,type="l")
+
+```
+
+Réalisez un graphique avec deux variables du data frame *univ*, Article et Score. Pour cela, il faut ajouter les deux vecteurs comme arguments dans la fonction *plot()*.
+
+```{r gra3, exercise=TRUE, exercise.eval=T}
+univ=read.xlsx(system.file("extdata", "TopUniversites.xlsx", package = "ApprendreR"))
+univ$Score<-as.numeric(univ$Score)
+univ$AlumniPrix<-as.numeric(univ$AlumniPrix)
+univ$StaffPrix<-as.numeric(univ$StaffPrix)
+univ$Chercheur<-as.numeric(univ$Chercheur)
+univ$Article<-as.numeric(univ$Article)
+# Ci-dessous, les graphiques
+
+
+```
+
+```{r gra3-hint}
+plot(univ$Article,univ$Score)
+```
+
+
+
+Lisez, dans le manuel du cours, le chapitre relatif à l'indexation. De plus, faites les exercices y relatifs. Puis, passer le quiz  que vous trouverez à la prochaine section de ce tutoriel.
+
+
+## Quiz
+
+Quelques questions, pour vérifier que vous avez compris les notions déjà vu, notamment sur l'indexation. Dans certains cas, plusieurs réponses sont correctes.
 
 ```{r quiz}
 quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
+  question("Comment créer un vecteur x dont les données vont de 20 à 35",
+    answer("x<-(1,2,3,4,5)"),
+    answer("x<-1;5"),
+    answer("x<-1:5", correct = TRUE),
+    answer("x<-seq(1,1,5")
   ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
+  question("J'aimerais afficher les données de la deuxième ligne d'une matrice M de dimension 4 X 5",
+           
+    answer("M[2,]", correct = TRUE),
+    answer("M[,2]"),
+    answer("M[-c(1,3,4),]", correct = TRUE),
+    answer("M[2,-c(1,3,4)]")
+    ),
+  
+  question("dada est un data frame contenant, dans l'ordre, les colonnes X, Y, et Z. Je veux afficher les données de la colonne Y. Quelle(s) est/sont la/les mauvaise(s) réponse(s)",
+    answer("dada[Y]", correct = TRUE),
+    answer("dada[2]"),
+    answer('dada["Y"]'),
+    answer('dada$Y')
   )
+  
 )
 ```
-

@@ -1,0 +1,45 @@
+---
+title: "Tutorial"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+Lisez, dans le manuel du cours, le chapitre relatif à l'indexation. De plus, faites les exercices y relatifs. Puis, passer le quiz  que vous trouverez à la prochaine section de ce tutoriel.
+
+
+## Quiz
+
+Quelques questions, pour vérifier que vous avez compris les notions déjà vu, notamment sur l'indexation. Dans certains cas, plusieurs réponses sont correctes.
+
+```{r quiz}
+quiz(
+  question("Comment créer un vecteur x dont les données vont de 20 à 35",
+    answer("x<-(1,2,3,4,5)"),
+    answer("x<-1;5"),
+    answer("x<-1:5", correct = TRUE),
+    answer("x<-seq(1,1,5")
+  ),
+  question("J'aimerais afficher les données de la deuxième ligne d'une matrice M de dimension 4 X 5",
+           
+    answer("M[2,]", correct = TRUE),
+    answer("M[,2]"),
+    answer("M[-c(1,3,4),]", correct = TRUE),
+    answer("M[2,-c(1,3,4)]")
+    ),
+  
+  question("dada est un data frame contenant, dans l'ordre, les colonnes X, Y, et Z. Je veux afficher les données de la colonne Y. Quelle(s) est/sont la/les mauvaise(s) réponse(s)",
+    answer("dada[Y]", correct = TRUE),
+    answer("dada[2]"),
+    answer('dada["Y"]'),
+    answer('dada$Y')
+  )
+  
+)
+```

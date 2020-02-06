@@ -1,11 +1,13 @@
 Package: ApprendreR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Ce package est un tutoriel de R en français (This package is a tutorial in French, to learn R)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Raulin L. Cadet
+Maintainer: The package maintainer <cadetraulin@gmail.com>
+Description: Ce package permet à un débutant qui parle le français de s'entrainer avec un guide dans la langue qu'il maitrise. Pour utiliser ce package, il faut aussi installer
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports:
+  learnr,
+  openxlsx
