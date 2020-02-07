@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Raulin L. Cadet
 Maintainer: The package maintainer <cadetraulin@gmail.com>
 Description: Ce package permet à un débutant qui parle le français de s'entrainer avec un guide dans la langue qu'il maitrise. Pour utiliser ce package, il faut aussi installer
-License: What license is it under?
+License: Copyright Raulin L. Cadet 2020
 Encoding: UTF-8
 LazyData: true
 Imports:
