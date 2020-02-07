@@ -210,7 +210,7 @@ Quelques questions, pour vérifier que vous avez compris les notions déjà vu, 
 
 ```{r quiz}
 quiz(
-  question("Comment créer un vecteur x dont les données vont de 20 à 35",
+  question("Comment créer un vecteur x dont les données vont de 1 à 5",
     answer("x<-(1,2,3,4,5)"),
     answer("x<-1;5"),
     answer("x<-1:5", correct = TRUE),
