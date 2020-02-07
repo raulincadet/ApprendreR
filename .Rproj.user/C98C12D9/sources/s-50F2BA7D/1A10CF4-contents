@@ -13,7 +13,9 @@ library(openxlsx)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+Ce tutoriel vous permet d'apprendre certaines notions en R, en vous exerçant. C'est sa première version. Alors, si vous remarquez des erreurs, merci de me les signaler. 
 
+Bon Travail!
 
 
 ## Importation de données
