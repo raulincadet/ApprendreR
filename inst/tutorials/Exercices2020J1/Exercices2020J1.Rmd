@@ -29,7 +29,7 @@ df=data.frame(categorie=sample(size=300,c("manuel de cours","roman","science fic
 ```
 
 ### Exercice 1:
-Importer les données du fichier *librairie.csv* dans un objet auquel vous donner le nom de *df*. Puis, explorer le data frame *df* avec la fonction *str*.
+Il existe un data frame du nom de df. Explorer le data frame *df* avec la fonction *str*.
 ```{r Exo1, exercise=TRUE}
 
 
