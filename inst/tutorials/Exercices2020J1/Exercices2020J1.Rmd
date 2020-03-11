@@ -1,0 +1,93 @@
+---
+title: "Devoir d'intra"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(ggplot2)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Etudiant:
+```{r nom, exercise=TRUE}
+# votre nom complet
+```
+
+
+
+```{r data,echo=F}
+set.seed(123)
+df=data.frame(categorie=sample(size=300,c("manuel de cours","roman","science fiction","bande dessinée"),prob = c(0.2,0.24,0.19,0.37),replace = T),ventes=round(abs(rnorm(300,1500,1000))))
+#write.csv(df,"inst/extdata/librairie.csv")
+#write.csv(df,"inst/tutorials/Exercices2020J1/librairie.csv")
+
+#df<-read.csv("inst/extdata/librairie.csv")
+
+```
+
+### Exercice 1:
+Importer les données du fichier *librairie.csv* dans un objet auquel vous donner le nom de *df*. Puis, explorer le data frame *df* avec la fonction *str*.
+```{r Exo1, exercise=TRUE}
+
+
+```
+
+
+### Exercice 2:
+
+Indiquer la moyenne et l'écart-type des ventes de la librairie.
+
+```{r exo2, exercise=TRUE}
+
+
+```
+
+### Exercice 3:
+
+Extraire de *df* uniquement les données relatives aux romans et aux bandes dessinés, afin de créer un data frame du nom de *df2*. Puis, afficher le nouveau data frame qui doit avoir les mêmes variables que *df*.
+
+```{r exo3, exercise=TRUE}
+
+
+```
+
+
+### Exercice 4:
+
+Indiquer la moyenne des ventes, par catégorie de livres.
+
+```{r exo4, exercise=TRUE}
+
+
+```
+
+### Exercice 5:
+
+Réaliser un graphique en bâton, indiquant la fréquence de livres par catégorie. Le nombre de livre, par catégorie doit apparaître dans le graphique.
+
+```{r exo5, exercise=TRUE}
+
+
+```
+
+### Exercice bonus:
+
+Utiliser le package *ggplot2*, pour réaliser un graphique en nuage de points, indiquant la proportion de livres et la moyenne des ventes, par catégorie. Le graphique doit ressembler celui-ci. Utiliser le thème minimal (*theme_minimal()*)
+
+```{r,echo=F,results='asis'}
+datg<-table(df$categorie);datg<-data.frame(datg,
+df%>%group_by(categorie)%>%summarise(mean(ventes)));datg<-datg[,c(1,2,4)]
+colnames(datg)<-c("Categories","Proportions","Ventes")
+
+ggplot(data=datg,aes(x = Proportions,y=Ventes))+geom_point(size=5,color='red')+
+    theme_minimal()+ggtitle('Est-ce que les ventes dépendent des quantités vendues?')
+```
+
+
+```{r exo6, exercise=TRUE}
+
+
+```
