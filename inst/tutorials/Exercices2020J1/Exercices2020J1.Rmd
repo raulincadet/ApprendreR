@@ -31,7 +31,9 @@ df=data.frame(categorie=sample(size=300,c("manuel de cours","roman","science fic
 ### Exercice 1:
 Il existe un data frame du nom de df. Explorer le data frame *df* avec la fonction *str*.
 ```{r Exo1, exercise=TRUE}
-
+library(devtools)
+library(devtools)
+install_github("raulincadet/ApprendreR")
 
 ```
 
