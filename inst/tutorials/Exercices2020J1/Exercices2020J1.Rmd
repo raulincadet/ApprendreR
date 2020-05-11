@@ -1,5 +1,5 @@
 ---
-title: "Devoir d'intra"
+title: "Exercices sur l'exploration de données"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
