@@ -1,5 +1,5 @@
 # ApprendreR
-Il s'agit d'un package, pour apprendre R. Créé pour permettre à mes étudiants d'avancer, lors d'une séance de cours qui n'a pas pu avoir lieu, il n'y a pas de chapitre introductif. Pour cette version, le tutoriel ne comporte que les notions que je devais voir avec mes étudiants à la semaine du 3 février 2020.
+Il s'agit d'un package, pour apprendre R. Créé pour permettre à mes étudiants d'avancer, lors d'une séance de cours qui n'a pas pu avoir lieu, il n'y a pas de chapitre introductif. Pour cette version, le tutoriel ne comporte que les notions que je devais voir avec mes étudiants à la semaine du 3 février 2020. Il a été mis à jour en novembre 2020.
 
 Pour bénéficier du tutoriel, suivez les étapes ci-dessous:
 

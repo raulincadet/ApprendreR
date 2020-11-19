@@ -1,7 +1,7 @@
 Package: ApprendreR
 Type: Package
 Title: Ce package est un tutoriel de R en français (This package is a tutorial in French, to learn R)
-Version: 0.1.0
+Version: 0.1.1
 Author: Raulin L. Cadet
 Maintainer: The package maintainer <cadetraulin@gmail.com>
 Description: Ce package permet à un débutant qui parle le français de s'entrainer avec un guide dans la langue qu'il maitrise. Pour utiliser ce package, il faut aussi installer
