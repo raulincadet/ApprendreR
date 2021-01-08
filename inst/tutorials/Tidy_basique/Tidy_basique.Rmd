@@ -1,0 +1,394 @@
+---
+title: "Tidyverse: Manipulation de données avec dplyr"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+df_sal<-read.csv("donneesSalaire.csv")
+knitr::opts_chunk$set(echo = FALSE)
+#gradethis::gradethis_setup()
+```
+
+
+## Les packages de Tidyverse
+
+Le package Tidyverse, maintenu par Hadley Wickham, est un ensemble de packages. Pour afficher la liste et le nombre de packages de Tidyverse, exécuter (Run, en anglais) les lignes de codes ci-dessous. 
+
+```{r liste_pack, exercise=TRUE}
+tidyverse_packages(include_self = FALSE)  # pour afficher la liste des packages de tidyverse
+
+length(tidyverse_packages(include_self = FALSE)) # pour afficher le nombre de packages
+
+```
+
+Par défaut, *Tidyverse* figure dans la liste. Pour l'enlever, l'arguement *include_self* doit avoir *FALSE* comme valeur. 
+
+Dans la liste affichée, le package qui permet de manipuler les données est *dplyr*. Les fonctions de *dplyr* génèrent généralement des *tibbles*, qui est une forme de data frame qui affichent seulement les premières lignes des données, comme vous pouvez le remarquer en exécutant la ligne de codes ci-dessous qui affichent une partie du tibble *df_sal. Il s'agit des données relatives au profil et au salaire de chacun des employés d'une organisation.
+
+
+
+
+```{r Tibble2,exercise=TRUE}
+df_sal                                 # pour afficher le tibble
+
+``` 
+
+
+## Le fonctionnement du package dplyr
+
+Le package *dplyr* permet de manipuler et de traiter les données d'un tableau facilement. Le fonctionnement de dplyr se fait à partir de verbes qui indiquent l'opération à réaliser sur les données. En fait, les verbes sont utilisés comme noms des fonctions de *dplyr*. Par exemple, pour filtrer un tableau, afin de sélectionner une partie des données, le verbe filtrer, en anglais, est utiliser comme nom de fonction: *filter*. Nous verrons quelques verbes prochainement.
+
+Certaines fois, on a plusieurs opérations à réaliser en chaine, i.e, l'une après l'autre. On peut utiliser l'opérateur suivante, %>%, dénommer *pipe*, pour enchainer des opérations. Un peu plus loin, des illustrations vous permettront de voir comment utiliser le pipe.
+
+
+## Les verbes de dplyr
+
+Dans cette section, nous considérons les verbes de dplyr.
+
+
+### filter
+
+Le verbe *filter* permet d'extraire une partie d'un tableau de données, à partir d'un critère. Par exemple, dans le tableau *df_sal*, nous pouvons extraire que les données concernant les femmes.
+
+Explorons d'abord le tableau *df_sal*, juste en affichant ses données.
+
+```{r filter1,exercise=TRUE}
+df_sal        # affichage des donnees du tableau df_sal
+
+```
+
+
+```{r filter2,exercise=TRUE}
+df_femme<-filter(df_sal,sexe=="Femme")  # Extraire que les lignes pour lesquelles le sexe est Femme
+
+df_femme                                # Afficher les donnees du nouveau tableau
+
+```
+
+
+### slice
+
+Le verbe *slice* permet d'indiquer les lignes pour lesquelles, il faut extraire les données. Par exemple, si nous allons extraire les données des lignes 1, 5, 10, et 20 du tableau *df_sal*.
+
+```{r slice1,exercise=TRUE}
+slice(df_sal,c(1,5,10,20))
+```
+
+
+### arrange
+
+Avec *arrange*, on peut réarranger les lignes d'un tableau de données. Dans l'illustration ci-dessous, nous ordonnons les lignes à partir du salaire. Ainsi, on part du plus petit salaire au plus élevé.
+
+```{r arrange1,exercise=TRUE}
+arrange(df_sal,salaire)
+```
+
+Si on veut faire le tri, en partant du salaire le plus faible pour arriver au plus élevé, on ajoute la foncgtion *desc*.
+
+```{r arrange2,exercise=TRUE}
+arrange(df_sal,desc(salaire))
+```
+
+
+
+### mutate
+
+Le verbe *mutate* permet de créer de nouvelles variables/colonnes dans un tableau de données. Nous illustrons l'utilisation de mutate en créant une colonne *tauxSal*, en divisant toutes les valeurs du salaire par le salaire le plus élevé. 
+
+```{r mutate1,exercise=TRUE}
+mutate(df_sal,tauxSal=salaire/max(salaire))
+
+
+```
+
+On peut utiliser *mutate* pour créer plusieurs nouvelles variables dans un tableau. Nous allons créer deux nouvelles variables. La première variable à calculer est la proportion de chacun des salaires par rapport à la masse salariale, sachant que la masse salariale est la somme de tous les salaires de l'organisation. La deuxième variable est l'âge des employés, indiqué en mois. 
+
+```{r mutate2,exercise=TRUE}
+mutate(df_sal,
+              proportionSal=salaire/sum(salaire),
+              ageMois=age*12)
+```
+
+
+### select
+
+Avec le verbe *select*, on peut indiquer les colonnes que l'on souhaite extraire d'un tableau de données. Dans le tableau *df_sal* contenant trois colonnes, nous sélectionnons seulement l'âge et le salaire, laissant tomber le sexe, comme illustrer ci-dessous.
+
+```{r select1,exercise=TRUE}
+select(df_sal,age,salaire)
+```
+
+
+### rename
+
+Avec *rename*, on peut changer les noms des colonnes d'un tableau de données. Dans l'illustration ci-dessous, nous changeons les noms des trois variables du tableau de données *df_sal*.
+
+```{r rename1,exercise=TRUE}
+rename(df_sal,SEXE=sexe,SALAIRE=salaire,AGE=age)
+
+```
+
+Il est aussi possible de changer seulement quelques noms de colonnes, avec *rename*. Dans l'illustration ci-dessous, nous modifions le nom de la colonne des salaires en *Payroll*.
+```{r rename2,exercise=TRUE}
+rename(df_sal,Payroll=salaire
+
+```
+
+
+### relocate
+
+Avec *relocate*, il est possible de changer de position les colonnes d'un tableau de données. On peut utiliser les arguments *.after* et *.before* pour indiquer les positions souhaitées. Ci-dessous, nous mettons l'âge après le payroll. Puis, nous plaçons le sexe avant la dernière colonne.
+
+```{r relocate1,exercise=TRUE}
+relocate(df_sal,age,.after = salaire)
+
+```
+
+
+```{r relocate2,exercise=TRUE}
+relocate(df_sal,sexe,.before = last_col())
+
+```
+
+
+### summarise
+
+Le verbe *summarise* permet de présenter un tableau des résultats d'une ou de plusieurs opérations. Dans l'illustration ci-dessous, nous présentons le salaire moyen et l'âge moyen des employés.
+
+```{r summarise1,exercise=TRUE,message=FALSE,warning=FALSE}
+summarise(df_sal,mean(salaire),mean(age))
+```
+
+
+### group_by
+
+Avec *group_by* on peut créer des groupes de lignes à partir d'une ou de plusieurs colonnes. Par exemple, ci-dessous, nous créons des groupes de lignes à partir de la colonne indiquant le sexe. Ainsi, il y aura deux groupes de données: celles des hommes et celles des femmes.
+
+```{r groupby1,exercise=TRUE}
+group_by(df_sal,sexe)
+
+
+```
+
+En affichant le nouveau tableau, aucun changement ne sera remarqué, bien qu'en réalité les groupes soient créés.
+
+Souvent on crée des groupes afin de présenter par groupe les résultats d'autres fonctions. Par exemple, pour avoir la moyenne du payroll et de l'âge, par sexe, on utilise le tableau où les données sont regroupées par sexe, *df_groupS*. Après l'avoir exécuté, vous pouvez remplacer *df_groupS* par *df_sal* et l'exécuter, pour voir la différence.
+
+```{r groupby2,exercise=TRUE,message=FALSE,warning=FALSE}
+df_groupS<-group_by(df_sal,sexe)
+
+summarise(df_groupS,mean(salaire),mean(age))
+```
+
+## Le pipe: %>%
+
+### Le pipe avec les verbes de dplyr
+
+Pour profiter des verbes de *dplyr*, on peut utiliser le pipe dont on a déjà fait mention. Dans les précédentes illustrations, on a toujours indiqué le nom du tableau de données comme le premier argument des verbes de *dplyr*. Avec le pipe, on procède différemment. On indique d'abord le nom du tableau de données, suivi du pipe qui est suivi du verbe. Nous allons illustrer l'utilisation du pipe avec le verbe *filter*, en prenant que les données relatives aux femmes. Puis, vous allez le faire pour d'autres verbes.
+
+
+```{r filter3,exercise=TRUE      }
+df2_femme<-df_sal%>%filter(sexe=="Femme")  # Extraire que les lignes pour lesquelles le sexe est Femme
+
+df2_femme                                # Afficher les donnees du nouveau tableau
+
+```
+
+C'est mieux de prendre l'habitude d'écrire les codes avec le pipe comme illustré ci-dessous. Car, en mettant les verbes par ligne, ce sera plus lisible, notamment lorsque nous aurons plusieurs opérations à réaliser en chaine.
+
+```{r filter4,exercise=TRUE}
+df2_femme<-df_sal%>%
+  filter(sexe=="Femme")  # Extraire que les lignes pour lesquelles le sexe est Femme
+
+df2_femme                                # Afficher les donnees du nouveau tableau
+
+```
+
+
+### Exercice - slice
+
+Utiliser *slice* pour extraire les données des lignes 1, 5, 10, et 20 du tableau *df_sal*. Nommer le nouveau tableau ainsi: *df_slice*. Puis, l'afficher, afin de voir le résultat de votre travail.
+
+```{r slice1b,exercise=TRUE}
+
+```
+
+```{r slice1b-solution}
+df_slice<-df_sal%>%
+  slice(c(1,5,10,20))
+```
+
+
+### Exercice - arrange
+
+Avec *arrange*, réarranger à partir du salaire, les lignes du tableau de données *df_sal*. 
+
+```{r arrange1c,exercise=TRUE}
+
+```
+
+```{r arrange1c-solution}
+df_Arr<-df_sal%>%
+  arrange(salaire)
+
+```
+
+Avec *arrange*, réarranger à partir du sexe et de l'âge, les lignes du tableau de données *df_sal*. 
+
+```{r arrange2b,exercise=TRUE}
+
+```
+
+```{r arrange2b-solution}
+df_ArrSA<-df_sal%>%
+  arrange(sexe,age)
+
+
+```
+
+### Le pipe pour enchainer des opérations
+
+Le pipe est très utile pour enchainer des opérations. Dans cette section, nous allons voir comment cela fonctionne.
+
+
+
+### pipe - illustrations  
+
+Ci-dessous, nous regroupons les donn♪0es par sexe, puis nous calculons la moyenne du salaire. Nous obtenons alors la moyenne par sexe.
+
+```{r pipe1, message=FALSE, warning=FALSE,exercise=TRUE}
+df_sal%>%
+  group_by(sexe)%>%
+  summarise(mean(salaire))
+
+```
+
+Ci-dessous, nous regroupons les données par sexe et nous calculons la moyenne respective du salaire et de l'âge. Nous obtenons les résultats par groupe. Nous avons donné un nom à chacune des moyennes.
+
+```{r pipe2, message=FALSE, warning=FALSE, exercise=TRUE}
+df_sal%>%
+  group_by(sexe)%>%
+  summarise(MoySal=mean(salaire),MoyAge=mean(age))
+
+```
+
+### Exercice 1 - pipe
+
+Calculer la médiane et l'écart-type du salaire, par sexe
+
+```{r pipeExo1,exercise=TRUE}
+
+```
+
+```{r pipeExo1-solution,eval=FALSE}
+df_sal%>%
+  group_by(sexe)%>%
+  summarise(median(salaire),sd(salaire))
+
+```
+
+### Exercice 2 - pipe
+
+Extraire les données des employés agés de plus de 50 ans, et calculer la médiane et l'écart-type du salaire de ces employés, par sexe. N'oubliez pas la fonction *filter* qui permet d'extraire des données en fonction d'un ou de plusieurs critères.
+
+```{r pipeExo2,exercise=TRUE}
+
+```
+
+```{r pipeExo2-solution,eval=FALSE}
+df_sal%>%
+  filter(age>50)%>%
+  group_by(sexe)%>%
+  summarise(median(salaire),sd(salaire))
+
+```
+
+
+
+### Exercice 3 - pipe
+
+Extraire les données des employés agés de plus de 50 ans, et calculer combien ils sont, utilisant la fonction *count()*. En fait, cette fonction permet de compter le nombre d'éléments ou la fréquence des éléments. Une illustration figure ci-dessous, avant de vous laisser réaliser l'exercice. Dans l'illustration, nous calculons le nombre de lignes ou d'observations que compte le tableau *df_sal*.
+
+```{r pip0,exercise=TRUE}
+df_sal%>%count()
+``` 
+
+Maintenant, vous pouvez réaliser l'exercice.
+
+```{r pipeExo3,exercise=TRUE}
+
+```
+
+```{r pipeExo3-solution,eval=FALSE}
+df_sal%>%
+  filter(age>50)%>%
+  count()
+
+```
+
+### Exercice 4 - pipe
+
+Extraire les données des employés agés de plus de 50 ans, et calculer le nombre par sexe. 
+
+```{r pipeExo4,exercise=TRUE}
+
+```
+
+```{r pipeExo4-solution,eval=FALSE}
+df_sal%>%
+  filter(age>50)%>%
+  count(age)%>%
+  arrange(desc(n))
+```
+
+
+
+### Exercice 5 - pipe
+
+Extraire les données des employés agés de moins de 30 ans, et calculer le nombre d'employés (la fréquence) par âge. 
+
+```{r pipeExo5,exercise=TRUE}
+
+```
+
+```{r pipeExo5-solution,eval=FALSE}
+df_sal%>%
+  filter(age<30)%>%
+  count(age)
+```
+
+### Exercice 6 - pipe
+
+Extraire les données des employés agés de moins de 30 ans, et calculer le nombre d'employés (la fréquence) par âge. Arranger les âges en fonction de leurs fréquences, avec la fonction *arrange*.
+
+```{r pipeExo6,exercise=TRUE}
+
+```
+
+```{r pipeExo6-solution,eval=FALSE}
+df_sal%>%
+  filter(age<30)%>%
+  count(age)%>%
+  arrange(n)
+```
+
+
+### Exercice 7 - pipe
+
+Extraire les données des employés agés de moins de 30 ans, et calculer le nombre d'employés (la fréquence) par âge. Arranger les âges en fonction de leurs fréquences, avec la fonction *arrange*. Il faut arranger les âges en partant de l'âge le plus fréquent parmi les employés de moins de 20 ans au moins fréquent.
+
+```{r pipeExo7,exercise=TRUE}
+
+```
+
+```{r pipeExo7-solution,eval=FALSE}
+df_sal%>%
+  filter(age<30)%>%
+  count(age)%>%
+  arrange(desc(n))
+```
+
+
