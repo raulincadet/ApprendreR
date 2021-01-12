@@ -14,18 +14,17 @@ cred<-read_csv(system.file("extdata", "CreditBancaire.csv", package = "Apprendre
 
 ```
 
-## Préambule
+### Préambule
 
 Ce test, sur 50 points, évalue votre capacité à manipuler les données, notamment avec *dplyr*. Pour réaliser les exercices, vous utiliserez le jeu de données *cred* qui présentent des données sur le portefeuille de crédit d'une institution financière. 
 
 Après avoir réalisé un exercice, il faut cliquer sur *Submit Answer*. Vous recevrez un feed-back vous indiquant si vous votre travail est correct. Sinon, vous pouvez cliquer sur *Start Over*, dans la fenêtre destinée à l'éxécution des codes. Si vous voulez refaire tous les exercices, il faut cliquer sur *Start Over*, dans le menu gauche du test.
 
 
-## Illustration 
+### Illustration 
 
 Cette illustration, vous permet de voir comment fonctionne le test.
 
-### Exercice zéro
 Dans cet exercice, il faut explorer le tableau de données *cred*, utilisant la fonction *str()*. Exécuter la ligne de code qui est déjà disponible, puis soumettez la réponse. Vous obtiendrez un feed-back vous félicitant. Si vous modifiez la ligne de code, pour avoir un résultat différent, le feed-back sera différent aussi.
 
 ```{r explore, exercise=TRUE}
@@ -75,7 +74,6 @@ grade_result(
 ```
 
 
-## Calcul du portefeuille à risque
 
 ### Exercice 3
 
@@ -140,7 +138,7 @@ grade_result(
 ```
 
 
-## Régression linéaire
+
 
 ### Exercice 6
 
@@ -169,13 +167,17 @@ grade_result(
 
 ### Exercice 7
 
-Présenter uniquement les détails des coefficients relatifs à la régression réalisée précédemment, comme illustré ci-dessous. La réponse à cette question doit être similaire à celle qui figure ci-dessous. De plus, si vous utiliser le pipe *%>%* dans vos codes, vous obtenez une note plus élevé. 
+Présenter uniquement les détails des coefficients relatifs à la régression réalisée précédemment, comme illustré ci-dessous. La réponse à cette question doit être similaire à celle qui figure ci-dessous. De plus, si vous utiliser le pipe *%>%* dans vos codes, vous obtenez une note plus élevée. 
 
-```{r setup_exo7,results='asis'}
+```{r setup_exo7,results="markup"}
 #knitr::opts_chunk$set(echo = FALSE)
 
 reg<-summary(lm(data = cred,Jours~Type+Credit))
 
+```
+
+```{r coef}
+reg<-summary(lm(data = cred,Jours~Type+Credit))
 reg%>%
   coefficients()
 ```
@@ -195,7 +197,7 @@ grade_result(
          ( reg%>%
             coefficients()   )
           ),
-          "Félicitations"
+          "Félicitations, pour le résultat. Vous gagnez 5 points"
           )
 )
 
