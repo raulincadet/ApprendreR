@@ -1,5 +1,5 @@
 ---
-title: "Tutorial"
+title: "Test sur la manipulation de données"
 output: learnr::tutorial
 runtime: shiny_prerendered
 
@@ -14,6 +14,30 @@ cred<-read_csv(system.file("extdata", "CreditBancaire.csv", package = "Apprendre
 
 ```
 
+## Préambule
+
+Ce test, sur 50 points, évalue votre capacité à manipuler les données, notamment avec *dplyr*. Pour réaliser les exercices, vous utiliserez le jeu de données *cred* qui présentent des données sur le portefeuille de crédit d'une institution financière. 
+
+Après avoir réalisé un exercice, il faut cliquer sur *Submit Answer*. Vous recevrez un feed-back vous indiquant si vous votre travail est correct. Sinon, vous pouvez cliquer sur *Start Over*, dans la fenêtre destinée à l'éxécution des codes. Si vous voulez refaire tous les exercices, il faut cliquer sur *Start Over*, dans le menu gauche du test.
+
+
+## Illustration 
+
+Cette illustration, vous permet de voir comment fonctionne le test.
+
+### Exercice zéro
+Dans cet exercice, il faut explorer le tableau de données *cred*, utilisant la fonction *str()*. Exécuter la ligne de code qui est déjà disponible, puis soumettez la réponse. Vous obtiendrez un feed-back vous félicitant. Si vous modifiez la ligne de code, pour avoir un résultat différent, le feed-back sera différent aussi.
+
+```{r explore, exercise=TRUE}
+str(cred)
+```
+
+```{r explore-check}
+grade_result(
+  pass_if(~identical(.result, 
+                     str(cred)),"Félicitations!")
+  )
+```
 
 
 
@@ -28,7 +52,7 @@ Calculer le total du portefeuille de credit.
 ```{r totPort-check}
 grade_result(
   pass_if(~identical(.result, 
-                     sum(cred$Credit)),"Félicitations!")
+                     sum(cred$Credit)),"Félicitations! Vous avez gagné 7 points.")
   )
 ```
 
@@ -46,9 +70,12 @@ grade_result(
                      cred%>%
                        group_by(Type)%>%
                        summarise(sum(Credit))
-                     ),"Félicitations!")
+                     ),"Félicitations! Vous avez gagné 7 points.")
   )
 ```
+
+
+## Calcul du portefeuille à risque
 
 ### Exercice 3
 
@@ -59,8 +86,6 @@ Extraire de *cred* toutes les données relatives aux clients qui ont plus de 30 
 ```
 
 ```{r tab_retard-check, message=FALSE, warning=FALSE}
-tab_retard<-cred%>%
-  filter(Jours>30)
 
 grade_result(
   
@@ -68,7 +93,7 @@ grade_result(
   pass_if(~(sum((.result)$Credit)==sum(
   (  cred%>%
         filter(Jours>30) )
-    $Credit)),"Félicitations!")
+    $Credit)),"Félicitations! Vous avez gagné 7 points.")
   
   )
 ```
@@ -83,16 +108,95 @@ Extraire de *cred* toutes les données relatives aux clients qui ont plus de 30 
 ```
 
 ```{r par30-check, message=FALSE, warning=FALSE}
-par30<-cred%>%
-  filter(Jours>30)%>%
-  summarise(sum(Credit))
-
-par30b<-cred%>%
-  filter(Jours>30)
 
 grade_result(
-  
-  pass_if(~identical(.result==95674247,"Félicitations!") )
-                     
+  pass_if(~(.result==sum((cred%>%filter(Jours>30))$Credit)
+                     ),"Félicitations! Vous avez gagné 7 points.")
   )
+```
+
+
+### Exercice 5
+
+Calculer le PAR30 par type de crédit, en enchainant toutes les opérations avec le pipe. 
+
+```{r par30Type, message=FALSE, warning=FALSE, exercise=TRUE}
+
+```
+
+```{r par30Type-check, message=FALSE, warning=FALSE}
+
+
+grade_result(
+  pass_if(~(.result==
+              cred%>%
+  filter(Jours>30)%>%
+  group_by(Type)%>%
+  summarise(sum(Credit))
+
+  )
+              ,"Félicitations! Vous avez gagné 7 points.")
+  )
+```
+
+
+## Régression linéaire
+
+### Exercice 6
+
+Compléter les lignes de code ci-dessous, pour présenter les résultats détaillés de la régression de la variable *Jours* sur les variables *Type* et *Credit*.
+
+```{r regres, message=FALSE, warning=FALSE, exercise=TRUE}
+reg<-summary(
+                  # realisation de la regression
+)
+reg               # affichage des resultats detailles de la regression
+```
+
+```{r regres-check, message=FALSE, warning=FALSE}
+
+sum(reg$residuals)
+
+grade_result(
+  pass_if(~(sum((.result)$residuals)==
+             sum(( summary(lm(data = cred,Jours~Type+Credit)))$residuals)
+
+  )
+              ,"Félicitations! Vous avez gagné 7.5 points.")
+  )
+
+```
+
+### Exercice 7
+
+Présenter uniquement les détails des coefficients relatifs à la régression réalisée précédemment, comme illustré ci-dessous. La réponse à cette question doit être similaire à celle qui figure ci-dessous. De plus, si vous utiliser le pipe *%>%* dans vos codes, vous obtenez une note plus élevé. 
+
+```{r setup_exo7,results='asis'}
+#knitr::opts_chunk$set(echo = FALSE)
+
+reg<-summary(lm(data = cred,Jours~Type+Credit))
+
+reg%>%
+  coefficients()
+```
+
+
+```{r regres2, message=FALSE, warning=FALSE, exercise=TRUE,exercise.setup ="setup_exo7"}
+
+```
+
+
+
+```{r regres2-check, message=FALSE, warning=FALSE}
+#reg<-summary(lm(data = cred,Jours~Type+Credit))
+
+grade_result(
+  pass_if(~identical(.result,
+         ( reg%>%
+            coefficients()   )
+          ),
+          "Félicitations"
+          )
+)
+
 ```
