@@ -1,0 +1,91 @@
+---
+title: "Tutorial"
+output: learnr::tutorial
+runtime: shiny_prerendered
+
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+gradethis::gradethis_setup()
+cred<-read_csv(system.file("extdata", "CreditBancaire.csv", package = "ApprendreR"))
+
+```
+
+
+
+
+### Exercice 1
+
+Calculer le total du portefeuille de credit.
+
+```{r totPort, exercise=TRUE}
+
+```
+
+```{r totPort-check}
+grade_result(
+  pass_if(~identical(.result, 
+                     sum(cred$Credit)),"Félicitations!")
+  )
+```
+
+### Exercice 2
+
+Calculer le total du portefeuille de credit, par type de credit
+
+```{r totPortType, message=FALSE, warning=FALSE, exercise=TRUE}
+
+```
+
+```{r totPortType-check, message=FALSE, warning=FALSE}
+grade_result(
+  pass_if(~identical(.result,
+                     cred%>%
+                       group_by(Type)%>%
+                       summarise(sum(Credit))
+                     ),"Félicitations!")
+  )
+```
+
+### Exercice 3
+
+Extraire de *cred* toutes les données relatives aux clients qui ont plus de 30 jours d'arriérés. Le résultat doit avoir les mêmes colonnes que *cred*.
+
+```{r tab_retard, message=FALSE, warning=FALSE, exercise=TRUE}
+
+```
+
+```{r tab_retard-check, message=FALSE, warning=FALSE}
+tab_retard<-cred%>%
+  filter(Jours>30)
+grade_result(
+  pass_if(~(dim(.result)[1]==dim(tab_retard)[1])&   &(sum(.result)==sum(tab_retard$Credit)),"Félicitations!")
+  
+  )
+```
+
+
+### Exercice 4
+
+Extraire de *cred* toutes les données relatives aux clients qui ont plus de 30 jours d'arriérés, et calculer le total du portefeuille à risque, le PAR30. 
+
+```{r par30, message=FALSE, warning=FALSE, exercise=TRUE}
+
+```
+
+```{r par30-check, message=FALSE, warning=FALSE}
+par30<-cred%>%
+  filter(Jours>30)%>%
+  summarise(sum(Credit))
+
+par30b<-cred>%>%
+  filter(Jours>30)
+grade_result(
+  pass_if(~identical(.result==par30),"Félicitations!")||
+    ~identical(.result==sum(par30b$Credit)),"Félicitations!")
+                     
+  )
+```
