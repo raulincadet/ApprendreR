@@ -61,8 +61,14 @@ Extraire de *cred* toutes les données relatives aux clients qui ont plus de 30 
 ```{r tab_retard-check, message=FALSE, warning=FALSE}
 tab_retard<-cred%>%
   filter(Jours>30)
+
 grade_result(
-  pass_if(~(dim(.result)[1]==dim(tab_retard)[1])&   &(sum(.result)==sum(tab_retard$Credit)),"Félicitations!")
+  
+  
+  pass_if(~(sum((.result)$Credit)==sum(
+  (  cred%>%
+        filter(Jours>30) )
+    $Credit)),"Félicitations!")
   
   )
 ```
@@ -81,11 +87,12 @@ par30<-cred%>%
   filter(Jours>30)%>%
   summarise(sum(Credit))
 
-par30b<-cred>%>%
+par30b<-cred%>%
   filter(Jours>30)
+
 grade_result(
-  pass_if(~identical(.result==par30),"Félicitations!")||
-    ~identical(.result==sum(par30b$Credit)),"Félicitations!")
+  
+  pass_if(~identical(.result==95674247,"Félicitations!") )
                      
   )
 ```
