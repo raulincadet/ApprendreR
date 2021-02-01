@@ -1,0 +1,147 @@
+---
+title: "Tutorial"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+gradethis::gradethis_setup()
+u<-seq(from=19,to=35,by=3)
+noms<-c("Timafi","Mèsidye","Asefi","Timamoun","Dyesèl","Kòkòt")
+codes<-c("T239", "M534", "A345", "T352", "D653", "K345")
+set.seed(1243)
+age<-round(rnorm(6,23,sd=2.5))
+```
+
+
+## Creation de vecteurs
+
+
+
+### Illustration 1 - Les séquences 
+
+Création d'un vecteur *x* dont les éléments vont de 10 à 22. Exécuter le code ci-dessous, pour visualiser le résultat.
+
+```{r x, exercise=TRUE}
+x<-10:22    # creation du vecteur x
+x           # affichage des elements du vecteur cree
+```
+
+
+Creer un vecteur y dont les éléments vont de 19 à 35, en complétant les lignes de code qui suivent.
+
+```{r y, exercise=TRUE}
+y<-
+  
+y
+```
+
+```{r y-check}
+y<-19:35
+y
+```
+
+```{r y-solution}
+y<-19:35
+y
+```
+
+
+### Illustration 2 - Les séquences 
+
+Création d'un vecteur *z* dont les éléments sont des nombres pairs qui vont de 10 à 22. Exécuter le code ci-dessous, pour visualiser le résultat.
+
+```{r z, exercise=TRUE}
+z<-seq(from=10,to=22,by=2)    # creation du vecteur x
+z           # affichage des elements du vecteur cree
+```
+
+
+Creer un vecteur dont les éléments vont de 19 à 35, sachant que le second nombre est le résultat de l'addition de 3 au précédent, ainsi de suite. Afficher les éléments du vecteur
+
+```{r u, exercise=TRUE}
+u<-
+  
+u
+```
+
+```{r u-check}
+grade_result(
+  
+  pass_if(~identical(.result, u),"Félicitations! C'est du bon boulot! ")
+  
+  )
+```
+
+```{r u-solution}
+u<-seq(from=19,to=35,by=3)
+u
+```
+
+
+
+### Illustration 3 - concatenate 
+
+Création d'un vecteur *d* dont les éléments sont des noms de 6 personnes. Exécuter le code ci-dessous, pour visualiser le résultat.
+
+```{r h, exercise=TRUE}
+d<-c("Timafi","Mèsidye","Asefi","Timamoun","Dyesèl","Kòkòt")    # creation du vecteur x
+d           # affichage des elements du vecteur cree
+```
+
+
+Creer un vecteur dont les éléments sont des codes ID suivants: T239, M534, A345, T352, D653, K345. Afficher le vecteur.
+
+```{r cod, exercise=TRUE}
+codes<-c(--)
+  
+u
+```
+
+```{r cod-check}
+grade_result(
+  
+  pass_if(~identical(.result, codes),"Félicitations! C'est du bon boulot! ")
+  
+  )
+```
+
+```{r cod-solution}
+codes<-c("T239", "M534", "A345", "T352", "D653", "K345")
+codes
+```
+
+
+## Data frame
+
+On peut créer un data frame avec plusieurs vecteurs. Par exemple, nous allons créer un data frame avec les vecteurs *noms*, *codes*, et *age*. D'abord, afficher les données de ces vecteurs:
+
+
+```{r vec, exercise=TRUE}
+noms;codes;age
+```
+
+
+
+Créer le data frame avec la fonction data.frame()
+
+```{r df, exercise=TRUE}
+
+```
+
+```{r df-check}
+grade_result(
+  
+  pass_if(~identical(.result, data.frame(noms,codes,age) ),"Félicitations! C'est du bon boulot! ")
+  
+  )
+
+```
+
+```{r df-solution}
+df<-data.frame(noms,codes,age)
+df
+```
+

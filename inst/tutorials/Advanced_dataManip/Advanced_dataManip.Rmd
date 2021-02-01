@@ -1,0 +1,101 @@
+---
+title: "Classement des Universités en 2021"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+gradethis::gradethis_setup()
+top_univ<-read.csv(system.file("extdata","TopUniversites_2021.csv",package="ApprendreR"))
+
+top<-top_univ%>%
+  filter(Name!="Courses")%>%
+  filter(Name!="Enquire")%>%
+  filter(Name!="EnquireCourses")%>%
+  filter(Name!="ExploreCourses")%>%
+  filter(Name!="Explore")%>%
+  filter(Name!="Verify Documents")%>%
+  filter(Name!="ExploreVerify Documents")%>%
+  filter(Name!="ExploreEnquire")%>%
+  filter(Name!="ExploreEnquireCourses")%>%
+  filter(Name!="EnquireAdmissions Support")%>%
+  filter(Name!="ExploreEnquireAdmissions Support")%>%
+  filter(Name!="Country/Region")%>%
+  slice(1:3052)
+
+
+
+countries<-top%>%
+  filter(is.na(Teaching)==TRUE)%>%
+  select(Name)
+
+Countries<-c(countries$Name)
+
+topUniv1<-top%>%
+  filter(is.na(Teaching)==FALSE)%>%
+  mutate(Region=Countries)%>%
+  relocate(Region,.after=Name)
+
+```
+
+Le tableau de données *top_univ* contient les scores obtenus par des universités classées par le Times Higher Education. Les scores concernent plusieurs critères de classement des universités. 
+
+
+# Explorer le tableau de données
+
+Explorer le tableau de données *top_univ*, avec la fonction *str()*.
+
+```{r explore, message=FALSE, warning=FALSE, exercise=TRUE}
+
+```
+
+```{r explore-check, message=FALSE, warning=FALSE}
+
+grade_result(
+  
+  pass_if(~identical(.result,
+                     str(top_univ)
+                     )
+                     ,"Félicitations! ")
+  
+  )
+```
+
+
+# Afficher le tableau
+
+```{r affiche, message=FALSE, warning=FALSE, exercise=TRUE}
+
+```
+
+```{r affiche-check, message=FALSE, warning=FALSE}
+
+grade_result(
+  
+  pass_if(~identical(.result, top_univ),"Félicitations! ")
+  
+  )
+```
+
+
+# Nettoyer le tableau
+
+En considérant le tableau affiché précédemment, vous pouvez remarquer que la colonne *Name* contient les noms des universités. Cependant, dans la même colonne figure d'autres informations, comme des noms de pays ou régions. Il est possible que le tableau comporte d'autres irrégularités. Il faut donc le vérifier et le nettoyer, pour avoir un tableau où chaque ligne contient les données relatives à une université. De plus, il faut ajouter une colonne portant le nom *Region*, qui doit contenir les noms des pays ou des régions, qui figurent pour l'instant dans la même colonne que les noms des universités. Il faut afficher le nouveau tableau qui doit avoir les colonnes suivantes: 
+
+```{r nettoye, message=FALSE, warning=FALSE, exercise=TRUE}
+
+
+```
+
+```{r nettoye-check, message=FALSE, warning=FALSE}
+
+grade_result(
+  
+  pass_if(~identical(.result, topUniv1),"Félicitations! C'est du bon boulot! ")
+  
+  )
+```
+

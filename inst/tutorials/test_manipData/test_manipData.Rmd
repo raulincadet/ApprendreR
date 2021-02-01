@@ -197,7 +197,7 @@ grade_result(
          ( reg%>%
             coefficients()   )
           ),
-          "Félicitations, pour le résultat. Vous gagnez 5 points"
+          "Félicitations, pour le résultat. Vous avez gagné 5 points"
           )
 )
 
